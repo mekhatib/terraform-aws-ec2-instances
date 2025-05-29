@@ -7,7 +7,7 @@ resource "aws_instance" "main" {
   subnet_id              = var.instances[count.index].subnet_id
   vpc_security_group_ids = var.instances[count.index].security_group_ids
   key_name               = var.key_name
-  iam_instance_profile   = var.instances[count.index].iam_role_name
+  iam_instance_profile = var.create_instance_profiles ? aws_iam_instance_profile.main[count.index].name : var.instances[count.index].iam_role_name
 
   # User data script
   user_data = var.instances[count.index].user_data_file != null ? file("${path.module}/${var.instances[count.index].user_data_file}") : null
